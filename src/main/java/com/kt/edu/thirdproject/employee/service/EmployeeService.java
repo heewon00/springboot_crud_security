@@ -33,6 +33,8 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
 
     }*/
+    //annotation 이 Transactional 인 method 만들어서 로그 찍기
+    @Transactional
     public List<EmployeeEntity> getEmployeeList() {
         log.info("Request to get all Employees");
         log.info("h2 password : " + h2Password );
@@ -62,6 +64,8 @@ public class EmployeeService {
         return this.employeeRepository.save(employeeEntity);
     }
 
+    //annotation 이 Ktedu 인 method 만들어서 로그 찍기
+    @Ktedu
     public EmployeeEntity update(Long id,EmployeeEntity employeeEntity) {
         log.info("Request to update Employee : " +  employeeEntity);
         EmployeeEntity employee = employeeRepository.findById(id)

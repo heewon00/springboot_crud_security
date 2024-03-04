@@ -184,7 +184,13 @@
 		    <groupId>io.github.mderevyankoaqa</groupId>
 		    <artifactId>jmeter-plugins-influxdb2-listener</artifactId>
 		    <version>2.7</version>
-		</dependency>		
+		</dependency>
+
+		<!-- AOP -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
