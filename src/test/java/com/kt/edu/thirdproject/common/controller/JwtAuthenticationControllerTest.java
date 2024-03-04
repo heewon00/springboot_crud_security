@@ -2,12 +2,20 @@ package com.kt.edu.thirdproject.common.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kt.edu.thirdproject.common.util.JwtTokenUtil;
+import com.kt.edu.thirdproject.employee.service.EmployeeService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,27 +24,47 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class JwtAuthenticationControllerTest {
+//@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(JwtAuthenticationController.class)
+//@AutoConfigureMockMvc
+@CrossOrigin(origins ="*")
+public class JwtAuthenticationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private AuthenticationManager authenticationManager;
+
     @Autowired
-    private ObjectMapper objectMapper;
+    private JwtTokenUtil jwtTokenUtil;
+
+    @MockBean
+    private EmployeeService employeeService;
+
+    //@Autowired
+    //private ObjectMapper objectMapper;
 
     @Test
-    void createAuthenticationToken() throws Exception {
-        // 사용자 인증 토큰 생성 테스트
-        Map<String, String> input = new HashMap<>();
-        input.put("username", "edu");
-        input.put("password", "edu1234");
+    public void testCreateAuthenticationToken() throws Exception {
+
+        String testStr = "{\n" +
+                "  \"username\": \"edu\", \n" +
+                "  \"password\": \"edu1234\"\n" +
+                "}";
+
+        //Map<String, String> input = new HashMap<>();
+        // body에 json 형식으로 회원의 데이터를 넣기 위해서 Map을 이용한다.
+        //input.put("username", "edu");
+        //input.put("password", "edu1234");
 
         mockMvc.perform(post("/api/login")
-                        .contentType(MediaType.APPLICATION_JSON) // 요청 타입을 JSON으로 설정
-                        .content(objectMapper.writeValueAsString(input))) // Map을 JSON 문자열로 변환하여 내용 전송
-                .andExpect(status().isOk()) // HTTP 200 상태 코드 검증
-                .andDo(print()); // 응답 내용 출력
+                        .content(testStr)
+                        //.content(objectMapper.writeValueAsString(input))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }
