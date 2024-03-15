@@ -10,6 +10,7 @@
 - JWT 변경 : 0.9.1 ->  0.12.3
   - secret key 40 자리 이상으로
 - SpringBoot : 3.2.1
+  - [[SpringBootSecurity 실습]](https://www.notion.so/heewon00/240123-240202-Docker-K3S-Nexus-Jenkins-ArgoCD-Helm-5dbcf254f1a14f11a4ed7bafff62d169?pvs=4#ce99a3b716fe4f79a774cf2e3cce2d36)
 
 local : SpringBoot + JWT + H2  
 
